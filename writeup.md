@@ -34,10 +34,32 @@ You're reading it!
 #### 1. Run the forward_kinematics demo and evaluate the kr210.urdf.xacro file to perform kinematic analysis of Kuka KR210 robot and derive its DH parameters.
 
 Schematic of reference frames for kuka arm:<br><br>
-<img src="https://raw.githubusercontent.com/tessav/rnd-project2/master/misc_images/schematic.png?token=AKybhv4dLjD7HkFYdx8PW0xF1aQoIa-Qks5aMQoswA%3D%3D" />
+<img src="https://raw.githubusercontent.com/shbosh/rnd-project2/master/misc_images/schematic.png" />
+<br>
 
-DH parameters an be derived from the urdf file:<br>
+#### Definitions of DH parameters
 
+Twist angle, alpha(i-1): angle between axis Z(i-1) and Z(i) measured about axis X(i-1)
+
+Link length, a: distance from axis Z(i-1) to Z(i) measured along axis X(i-1)
+
+Link offset, d: distance from axis X(i-1) to X(i) measured along axis Z(i)
+
+Joint angle, theta: angle between axis X(i-1) and X(i) measured about axis Z(i)
+
+#### Relative location of joints (URDF File)
+
+Joint | x | y	| z | axis
+--- | --- | --- | --- | ---
+1 | 0 | 0 | 0.33 | z
+2 | 0.35 | 0 | 0.42 | y
+3 | 0 | 0| 1.25 | y
+4 | 0.96 | 0 | -0.54 | x
+5 | 0.54 | 0 | 0 | y
+6 | 0.193 | 0	| 0 | x
+G | 0.11 | 0 | 0 | y
+
+#### DH Matrix
 Links | alpha(i-1) | a(i-1) | d(i-1) | theta(i)
 --- | --- | --- | --- | ---
 0->1 | 0 | 0 | 0.75 | q1 
@@ -48,6 +70,8 @@ Links | alpha(i-1) | a(i-1) | d(i-1) | theta(i)
 5->6 | -pi/2 | 0 | 0 | q6
 6->EE | 0 | 0 | 0.303 | 0
 
+##### Example:
+- a1 is distance between Z1 and Z2 along the x-axis -> In URDF, joint 1 and joint 2 are 0.35m apart.
 <br>
 
 #### 2. Using the DH parameter table you derived earlier, create individual transformation matrices about each joint. In addition, also generate a generalized homogeneous transform between base_link and gripper_link using only end-effector(gripper) pose.
@@ -122,6 +146,7 @@ theta6 = atan2(-R3_6[1,1], R3_6[1,0])
 
 #### 1. Fill in the `IK_server.py` file with properly commented python code for calculating Inverse Kinematics based on previously performed Kinematic Analysis. Your code must guide the robot to successfully complete 8/10 pick and place cycles. Briefly discuss the code you implemented and your results. 
 
-First, I defined the DH transformation matrix and used it to create the transformation matrices for each joint via forward kinematics. In order to correct the discrepancy on the gripper link, I applied a 180 degree rotation along z axis and a 90 degree rotation along the y axis, on the total transformation matrix.  Lastly, I extracted the end-effector position and orientation from the request and calculated the joint angles via inverse kinematics.<br><br>
+First, I defined the DH transformation matrix and used it to create the transformation matrices for each joint via forward kinematics. In order to correct the discrepancy on the gripper link, I applied a 180 degree rotation along z axis and a 90 degree rotation along the y axis, on the total transformation matrix.  Lastly, I extracted the end-effector position and orientation from the request and calculated the joint angles via inverse kinematics.<br>
+<b>Results:</b> The robot arm is able to complete 10/10 pick and place cycles as shown below.<br><br>
 
-<img src="https://raw.githubusercontent.com/tessav/rnd-project2/master/misc_images/robotarm.png?token=AKybhv4dLjD7HkFYdx8PW0xF1aQoIa-Qks5aMQoswA%3D%3D" />
+<img src="https://raw.githubusercontent.com/shbosh/rnd-project2/master/misc_images/results.png" />
