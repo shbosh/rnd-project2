@@ -148,4 +148,4 @@ theta6 = atan2(-R3_6[1,1], R3_6[1,0])
 First, I defined the DH transformation matrix and used it to create the transformation matrices for each joint via forward kinematics. In order to correct the discrepancy on the gripper link, I applied a 180 degree rotation along z axis and a 90 degree rotation along the y axis, on the total transformation matrix.  Lastly, I extracted the end-effector position and orientation from the request and calculated the joint angles via inverse kinematics.<br>
 <b>Results:</b> The robot arm is able to complete 10/10 pick and place cycles as shown below.<br><br>
 
-<img src="https://raw.githubusercontent.com/shbosh/rnd-project2/master/misc_images/results.png" />
+<img src="https://raw.githubusercontent.com/tessav/rnd-project2/master/misc_images/results.png" />
