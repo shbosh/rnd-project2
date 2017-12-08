@@ -17,8 +17,9 @@
 [//]: # (Image References)
 
 [image1]: ./misc_images/misc1.png
-[image2]: ./misc_images/misc3.png
+[image2]: ./misc_images/ik.png
 [image3]: ./misc_images/misc2.png
+[image4]: ./misc_images/calc.jpeg
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
 ### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
@@ -70,8 +71,7 @@ Links | alpha(i-1) | a(i-1) | d(i-1) | theta(i)
 5->6 | -pi/2 | 0 | 0 | q6
 6->EE | 0 | 0 | 0.303 | 0
 
-Example: a1 is distance between Z1 and Z2 along the x-axis -> In URDF, joint 1 and joint 2 are 0.35m apart.
-<br><br>
+<br>
 
 #### 2. Using the DH parameter table you derived earlier, create individual transformation matrices about each joint. In addition, also generate a generalized homogeneous transform between base_link and gripper_link using only end-effector(gripper) pose.
 
@@ -109,8 +109,10 @@ Two additional rotations are applied to the gripper frame to correct discrepancy
 
 #### 3. Decouple Inverse Kinematics problem into Inverse Position Kinematics and inverse Orientation Kinematics; doing so derive the equations to calculate all individual joint angles.
 
-##### Inverse position kinematics problem: 
+##### Inverse position kinematics problem:
 Joint 1, 2, 3 determine the position of the end effector. <br>
+![image2]
+![image4]
 
 ```python
 # Calculate joint angles using Geometric IK method
@@ -131,7 +133,8 @@ theta3 = pi / 2 - (angle_b + 0.036) # 0.036 accounts for sag in link 4 of -0.054
 ```
 
 ##### Inverse orientation kinematics problem: 
-Joint 4, 5, 6 determine the orientation of the end effector. <br> 
+Joint 4, 5, 6 determine the orientation of the end effector. <br>
+Theta4,5 and 6 can be found by transforming the orientation into euler angles using theta1,2 and 3. 
 
 ```python
 # Euler angles from rotation matrix
@@ -148,4 +151,4 @@ theta6 = atan2(-R3_6[1,1], R3_6[1,0])
 First, I defined the DH transformation matrix and used it to create the transformation matrices for each joint via forward kinematics. In order to correct the discrepancy on the gripper link, I applied a 180 degree rotation along z axis and a 90 degree rotation along the y axis, on the total transformation matrix.  Lastly, I extracted the end-effector position and orientation from the request and calculated the joint angles via inverse kinematics.<br>
 <b>Results:</b> The robot arm is able to complete 10/10 pick and place cycles as shown below.<br><br>
 
-<img src="https://raw.githubusercontent.com/tessav/rnd-project2/master/misc_images/results.png" />
+<img src="https://raw.githubusercontent.com/shbosh/rnd-project2/master/misc_images/results.png" />
